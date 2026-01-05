@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Room Created Successfully</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    body {
+      background-color: #0b0e1a;
+      color: #fff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .popup {
+      background: #141827;
+      border-radius: 16px;
+      padding: 40px 60px;
+      text-align: center;
+      box-shadow: 0 0 30px rgba(0, 0, 0, 0.3);
+      animation: fadeIn 0.5s ease;
+    }
+
+    .popup .icon {
+      width: 60px;
+      height: 60px;
+      background: #1f2233;
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin: 0 auto 20px;
+    }
+
+    .popup .icon span {
+      font-size: 2rem;
+      color: #8b5cf6;
+    }
+
+    .popup h2 {
+      font-size: 1.4rem;
+      margin-bottom: 8px;
+    }
+
+    .popup p {
+      color: #aaa;
+      font-size: 0.9rem;
+      margin-bottom: 25px;
+    }
+
+    .popup button {
+      background: #2563eb;
+      border: none;
+      color: #fff;
+      padding: 10px 30px;
+      border-radius: 25px;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    .popup button:hover {
+      background: #1d4ed8;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: scale(0.9);
+      }
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="popup">
+    <div class="icon">
+      <span>✔</span>
+    </div>
+    <h2>Room Created Successfully!</h2>
+    <p>Room Created successfully!</p>
+    <button id="okBtn">OK</button>
+  </div>
+  <script>
+    document.getElementById('okBtn').addEventListener('click', function () {
+      location.href = 'mainoptionpage.html';
+    });
+  </script>
+</body>
+</html>
+
+

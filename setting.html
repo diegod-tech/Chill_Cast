@@ -1,0 +1,322 @@
+<!doctype html>
+<html lang="en" class="h-full">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Settings</title>
+  <script src="/_sdk/element_sdk.js"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body {
+      box-sizing: border-box;
+    }
+    
+    .toggle-checkbox:checked {
+      background-color: currentColor;
+    }
+    
+    .toggle-checkbox:checked + .toggle-label:before {
+      transform: translateX(1.5rem);
+    }
+    
+    .toggle-label:before {
+      content: '';
+      position: absolute;
+      top: 0.125rem;
+      left: 0.125rem;
+      width: 1.25rem;
+      height: 1.25rem;
+      background-color: white;
+      border-radius: 9999px;
+      transition: transform 0.2s;
+    }
+  </style>
+  <style>@view-transition { navigation: auto; }</style>
+  <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
+ </head>
+ <body class="h-full">
+  <div id="app-wrapper" class="h-full w-full overflow-auto" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+   <div class="min-h-full flex items-center justify-center p-6">
+    <main class="w-full max-w-2xl bg-white rounded-2xl shadow-2xl p-8">
+     <header class="mb-8">
+      <div class="flex items-center gap-6 mb-6">
+       <div class="w-24 h-24 rounded-full bg-gradient-to-br from-purple-400 to-indigo-600 flex items-center justify-center shadow-lg">
+        <svg class="w-12 h-12 text-white" fill="currentColor" viewbox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" />
+        </svg>
+       </div>
+       <div>
+        <h1 id="page-title" class="text-4xl font-bold mb-2" style="color: #667eea;">Settings</h1>
+        <p class="text-gray-600">Manage your account preferences</p>
+       </div>
+      </div>
+     </header>
+     <section id="settings-page">
+      <div class="space-y-3">
+       <div class="w-full flex items-center justify-between p-5 bg-gray-50 rounded-xl">
+        <div class="flex items-center gap-4">
+         <div class="w-12 h-12 rounded-full bg-gradient-to-br from-blue-400 to-blue-600 flex items-center justify-center">
+          <svg class="w-6 h-6 text-white" fill="currentColor" viewbox="0 0 24 24"><path d="M12 22c1.1 0 2-.9 2-2h-4c0 1.1.9 2 2 2zm6-6v-5c0-3.07-1.63-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v.68C7.64 5.36 6 7.92 6 11v5l-2 2v1h16v-1l-2-2zm-2 1H8v-6c0-2.48 1.51-4.5 4-4.5s4 2.02 4 4.5v6z" />
+          </svg>
+         </div>
+         <div class="text-left"><label for="notification-toggle" class="font-semibold text-gray-800 cursor-pointer" id="notification-label">Notifications</label>
+          <p class="text-sm text-gray-600">Manage your notifications</p>
+         </div>
+        </div>
+        <div class="relative"><input type="checkbox" id="notification-toggle" class="toggle-checkbox sr-only" checked style="color: #667eea;"> <label for="notification-toggle" class="toggle-label block w-14 h-7 bg-gray-300 rounded-full relative cursor-pointer"></label>
+        </div>
+       </div><button onclick="handleShareApp()" class="w-full flex items-center justify-between p-5 bg-gray-50 rounded-xl hover:bg-gray-100 transition-colors">
+        <div class="flex items-center gap-4">
+         <div class="w-12 h-12 rounded-full bg-gradient-to-br from-green-400 to-green-600 flex items-center justify-center">
+          <svg class="w-6 h-6 text-white" fill="currentColor" viewbox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81 1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9c-1.66 0-3 1.34-3 3s1.34 3 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.16c-.05.21-.08.43-.08.65 0 1.61 1.31 2.92 2.92 2.92 1.61 0 2.92-1.31 2.92-2.92s-1.31-2.92-2.92-2.92z" />
+          </svg>
+         </div>
+         <div class="text-left">
+          <p class="font-semibold text-gray-800" id="share-label">Share App</p>
+          <p class="text-sm text-gray-600">Share with friends</p>
+         </div>
+        </div>
+        <svg class="w-6 h-6 text-gray-400" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+        </svg></button> <button onclick="openPrivacyPage()" class="w-full flex items-center justify-between p-5 bg-gray-50 rounded-xl hover:bg-gray-100 transition-colors">
+        <div class="flex items-center gap-4">
+         <div class="w-12 h-12 rounded-full bg-gradient-to-br from-purple-400 to-purple-600 flex items-center justify-center">
+          <svg class="w-6 h-6 text-white" fill="currentColor" viewbox="0 0 24 24"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm0 10.99h7c-.53 4.12-3.28 7.79-7 8.94V12H5V6.3l7-3.11v8.8z" />
+          </svg>
+         </div>
+         <div class="text-left">
+          <p class="font-semibold text-gray-800" id="privacy-label">Privacy</p>
+          <p class="text-sm text-gray-600">Privacy settings</p>
+         </div>
+        </div>
+        <svg class="w-6 h-6 text-gray-400" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+        </svg></button> <button onclick="handleLogout()" class="w-full flex items-center justify-between p-5 bg-gray-50 rounded-xl hover:bg-red-50 transition-colors">
+        <div class="flex items-center gap-4">
+         <div class="w-12 h-12 rounded-full bg-gradient-to-br from-red-400 to-red-600 flex items-center justify-center">
+          <svg class="w-6 h-6 text-white" fill="currentColor" viewbox="0 0 24 24"><path d="M17 7l-1.41 1.41L18.17 11H8v2h10.17l-2.58 2.58L17 17l5-5zM4 5h8V3H4c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h8v-2H4V5z" />
+          </svg>
+         </div>
+         <div class="text-left">
+          <p id="logout-label" class="font-semibold text-red-600">Logout</p>
+          <p class="text-sm text-gray-600">Sign out of your account</p>
+         </div>
+        </div>
+        <svg class="w-6 h-6 text-gray-400" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+        </svg></button>
+      </div>
+     </section>
+     <section id="privacy-page" class="hidden"><button onclick="goBack()" class="flex items-center gap-2 mb-6 text-gray-600 hover:text-gray-800 transition-colors">
+       <svg class="w-6 h-6" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+       </svg><span class="font-medium">Back</span> </button>
+      <h2 class="text-3xl font-bold mb-6 text-gray-800">Privacy Policy</h2>
+      <div class="space-y-6">
+       <div class="p-6 bg-gray-50 rounded-xl">
+        <h3 class="text-xl font-semibold mb-3 text-gray-800">Data Collection</h3>
+        <p class="text-gray-600 leading-relaxed">We collect information that you provide directly to us, including when you create an account, use our services, or communicate with us. This may include your name, email address, and usage data.</p>
+       </div>
+       <div class="p-6 bg-gray-50 rounded-xl">
+        <h3 class="text-xl font-semibold mb-3 text-gray-800">How We Use Your Data</h3>
+        <p class="text-gray-600 leading-relaxed">Your data is used to provide and improve our services, personalize your experience, communicate with you, and ensure the security of our platform. We never sell your personal information to third parties.</p>
+       </div>
+       <div class="p-6 bg-gray-50 rounded-xl">
+        <h3 class="text-xl font-semibold mb-3 text-gray-800">Data Security</h3>
+        <p class="text-gray-600 leading-relaxed">We implement industry-standard security measures to protect your personal information from unauthorized access, disclosure, or destruction. Your data is encrypted both in transit and at rest.</p>
+       </div>
+       <div class="p-6 bg-gray-50 rounded-xl">
+        <h3 class="text-xl font-semibold mb-3 text-gray-800">Your Rights</h3>
+        <p class="text-gray-600 leading-relaxed">You have the right to access, update, or delete your personal information at any time. You can also opt out of marketing communications and request a copy of your data.</p>
+       </div>
+       <div class="p-6 bg-gray-50 rounded-xl">
+        <h3 class="text-xl font-semibold mb-3 text-gray-800">Contact Us</h3>
+        <p class="text-gray-600 leading-relaxed">If you have any questions about our privacy policy or how we handle your data, please contact our privacy team at privacy@example.com.</p>
+       </div>
+      </div>
+     </section>
+    </main>
+   </div>
+  </div>
+  <script>
+    const defaultConfig = {
+      page_title: "Settings",
+      notification_label: "Notifications",
+      share_label: "Share App",
+      privacy_label: "Privacy",
+      logout_label: "Logout",
+      background_color: "#667eea",
+      surface_color: "#ffffff",
+      text_color: "#1f2937",
+      primary_button_color: "#667eea",
+      accent_color: "#f3f4f6",
+      font_family: "system-ui",
+      font_size: 16
+    };
+
+    function openPrivacyPage() {
+      document.getElementById('settings-page').classList.add('hidden');
+      document.getElementById('privacy-page').classList.remove('hidden');
+      document.querySelector('header').classList.add('hidden');
+    }
+
+    function goBack() {
+      document.getElementById('privacy-page').classList.add('hidden');
+      document.getElementById('settings-page').classList.remove('hidden');
+      document.querySelector('header').classList.remove('hidden');
+    }
+
+    function handleLogout() {
+      showMessage('Logging out...');
+    }
+
+    function showMessage(text) {
+      const existing = document.getElementById('toast-message');
+      if (existing) existing.remove();
+
+      const toast = document.createElement('div');
+      toast.id = 'toast-message';
+      toast.className = 'fixed bottom-8 left-1/2 transform -translate-x-1/2 px-6 py-3 bg-gray-800 text-white rounded-lg shadow-lg transition-opacity duration-300';
+      toast.textContent = text;
+      document.body.appendChild(toast);
+
+      setTimeout(() => {
+        toast.style.opacity = '0';
+        setTimeout(() => toast.remove(), 300);
+      }, 2000);
+    }
+
+    async function onConfigChange(config) {
+      const customFont = config.font_family || defaultConfig.font_family;
+      const baseFontStack = '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif';
+      const baseSize = config.font_size || defaultConfig.font_size;
+      
+      const backgroundColor = config.background_color || defaultConfig.background_color;
+      const surfaceColor = config.surface_color || defaultConfig.surface_color;
+      const textColor = config.text_color || defaultConfig.text_color;
+      const accentColor = config.accent_color || defaultConfig.accent_color;
+      
+      document.getElementById('app-wrapper').style.background = `linear-gradient(135deg, ${backgroundColor} 0%, #764ba2 100%)`;
+      document.querySelector('main').style.backgroundColor = surfaceColor;
+      
+      document.getElementById('page-title').textContent = config.page_title || defaultConfig.page_title;
+      document.getElementById('page-title').style.color = backgroundColor;
+      document.getElementById('page-title').style.fontFamily = `${customFont}, ${baseFontStack}`;
+      document.getElementById('page-title').style.fontSize = `${baseSize * 2.5}px`;
+      
+      document.getElementById('notification-label').textContent = config.notification_label || defaultConfig.notification_label;
+      document.getElementById('notification-label').style.color = textColor;
+      document.getElementById('notification-label').style.fontFamily = `${customFont}, ${baseFontStack}`;
+      document.getElementById('notification-label').style.fontSize = `${baseSize}px`;
+      
+      document.getElementById('share-label').textContent = config.share_label || defaultConfig.share_label;
+      document.getElementById('share-label').style.color = textColor;
+      document.getElementById('share-label').style.fontFamily = `${customFont}, ${baseFontStack}`;
+      document.getElementById('share-label').style.fontSize = `${baseSize}px`;
+      
+      document.getElementById('privacy-label').textContent = config.privacy_label || defaultConfig.privacy_label;
+      document.getElementById('privacy-label').style.color = textColor;
+      document.getElementById('privacy-label').style.fontFamily = `${customFont}, ${baseFontStack}`;
+      document.getElementById('privacy-label').style.fontSize = `${baseSize}px`;
+      
+      document.getElementById('logout-label').style.fontFamily = `${customFont}, ${baseFontStack}`;
+      document.getElementById('logout-label').style.fontSize = `${baseSize}px`;
+      document.getElementById('logout-label').textContent = config.logout_label || defaultConfig.logout_label;
+      
+      document.querySelectorAll('p').forEach(el => {
+        el.style.fontFamily = `${customFont}, ${baseFontStack}`;
+        el.style.fontSize = `${baseSize * 0.875}px`;
+      });
+      
+      document.querySelectorAll('.bg-gray-50').forEach(el => {
+        el.style.backgroundColor = accentColor;
+      });
+    }
+
+    function mapToCapabilities(config) {
+      return {
+        recolorables: [
+          {
+            get: () => config.background_color || defaultConfig.background_color,
+            set: (value) => {
+              config.background_color = value;
+              if (window.elementSdk) {
+                window.elementSdk.setConfig({ background_color: value });
+              }
+            }
+          },
+          {
+            get: () => config.surface_color || defaultConfig.surface_color,
+            set: (value) => {
+              config.surface_color = value;
+              if (window.elementSdk) {
+                window.elementSdk.setConfig({ surface_color: value });
+              }
+            }
+          },
+          {
+            get: () => config.text_color || defaultConfig.text_color,
+            set: (value) => {
+              config.text_color = value;
+              if (window.elementSdk) {
+                window.elementSdk.setConfig({ text_color: value });
+              }
+            }
+          },
+          {
+            get: () => config.primary_button_color || defaultConfig.primary_button_color,
+            set: (value) => {
+              config.primary_button_color = value;
+              if (window.elementSdk) {
+                window.elementSdk.setConfig({ primary_button_color: value });
+              }
+            }
+          },
+          {
+            get: () => config.accent_color || defaultConfig.accent_color,
+            set: (value) => {
+              config.accent_color = value;
+              if (window.elementSdk) {
+                window.elementSdk.setConfig({ accent_color: value });
+              }
+            }
+          }
+        ],
+        borderables: [],
+        fontEditable: {
+          get: () => config.font_family || defaultConfig.font_family,
+          set: (value) => {
+            config.font_family = value;
+            if (window.elementSdk) {
+              window.elementSdk.setConfig({ font_family: value });
+            }
+          }
+        },
+        fontSizeable: {
+          get: () => config.font_size || defaultConfig.font_size,
+          set: (value) => {
+            config.font_size = value;
+            if (window.elementSdk) {
+              window.elementSdk.setConfig({ font_size: value });
+            }
+          }
+        }
+      };
+    }
+
+    function mapToEditPanelValues(config) {
+      return new Map([
+        ["page_title", config.page_title || defaultConfig.page_title],
+        ["notification_label", config.notification_label || defaultConfig.notification_label],
+        ["share_label", config.share_label || defaultConfig.share_label],
+        ["privacy_label", config.privacy_label || defaultConfig.privacy_label],
+        ["logout_label", config.logout_label || defaultConfig.logout_label]
+      ]);
+    }
+
+    if (window.elementSdk) {
+      window.elementSdk.init({
+        defaultConfig,
+        onConfigChange,
+        mapToCapabilities,
+        mapToEditPanelValues
+      });
+    }
+  </script>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9ad39906955f47d5',t:'MTc2NTYwOTM2Ni4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>

@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Create Room</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    body {
+      background-color: #0f1123;
+      color: #fff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .container {
+      text-align: center;
+      background: rgba(255, 255, 255, 0.05);
+      padding: 40px;
+      border-radius: 12px;
+      width: 320px;
+    }
+
+    h2 {
+      font-size: 1.8rem;
+      margin-bottom: 10px;
+    }
+
+    p {
+      color: #aaa;
+      font-size: 0.9rem;
+      margin-bottom: 25px;
+    }
+
+    input {
+      width: 100%;
+      padding: 12px;
+      border: none;
+      border-radius: 8px;
+      outline: none;
+      font-size: 1rem;
+      margin-bottom: 20px;
+    }
+
+    button {
+      width: 100%;
+      padding: 12px;
+      border: none;
+      border-radius: 8px;
+      background: linear-gradient(90deg, #7b2ff7, #f107a3);
+      color: #fff;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: opacity 0.3s;
+    }
+
+    button:hover {
+      opacity: 0.85;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Create Room</h2>
+    <p>You can name your room and create it</p>
+    <input type="text" placeholder="Room Name" />
+    <button id="createBtn">Create</button>
+    <div style="margin-top:12px;">
+      <button onclick="location.href='main%20page.html'">Back</button>
+    </div>
+  </div>
+  <script>
+    document.getElementById('createBtn').addEventListener('click', function () {
+      // After creating the room, go to the success page
+      location.href = 'success.html';
+    });
+  </script>
+</body>
+</html>
+
+

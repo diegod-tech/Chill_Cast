@@ -1,0 +1,65 @@
+body {
+  font-family: Arial, sans-serif;
+  background-color: #101010;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.profile-container {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(227, 223, 223, 0.1);
+  padding: 30px;
+  text-align: center;
+  width: 300px;
+}
+img {
+    border-radius: 8px; /* Adds rounded corners */
+    max-width: 100%;    /* Makes the image responsive */
+    height: auto;       /* Maintains the aspect ratio */
+    margin: 10px;       /* Adds space around the image */
+}
+
+
+.profile-pic {
+  width: 80px;
+  height: 80px;
+  background-color: #fdfafa;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto 15px;
+  font-weight: bold;
+  color: #847c7c;
+}
+
+.name {
+  color:#ece9e9;
+  margin: 5px 0;
+  font-size: 20px;
+}
+
+.email {
+  color: #efe8e8;
+  margin-bottom: 20px;
+}
+
+.btn {
+  display: block;
+  width: 100%;
+  padding: 10px;
+  margin: 8px 0;
+  border: none;
+  border-radius: 5px;
+  background: linear-gradient(90deg, #7b2ff7, #f107a3);
+  color: rgb(234, 240, 240);
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.btn:hover {
+  background: linear-gradient(90deg, #7b2ff7, #f107a3);
+}

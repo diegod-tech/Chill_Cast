@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Chillcast</title>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    body {
+      background: radial-gradient(circle at top, #0f0f1a, #050509);
+      color: #fff;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+    }
+
+    /* ===== HEADER ===== */
+    header {
+    width: 90%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 0 20px 70px; /* LEFT SPACE FOR PROFILE ICON */
+    position: relative;
+  }
+
+    /* ===== PROFILE ICON (TOP LEFT) ===== */
+    .profile-btn {
+      position: absolute;
+      top: 20px;
+      left: 0;
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #7b2ff7, #f107a3);
+      border: 2px solid rgba(255, 255, 255, 0.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.3s;
+      overflow: hidden;
+    }
+
+    .profile-btn:hover {
+      transform: scale(1.1);
+      box-shadow: 0 0 20px rgba(123, 47, 247, 0.6);
+    }
+
+    .profile-btn img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 50%;
+    }
+
+    header h1 {
+      font-size: 1.2rem;
+      letter-spacing: 1px;
+    }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 25px;
+    }
+
+    nav ul li a {
+      text-decoration: none;
+      color: #ccc;
+      font-size: 0.9rem;
+      transition: color 0.3s;
+    }
+
+    nav ul li a:hover {
+      color: #fff;
+    }
+
+    .btn {
+      background: linear-gradient(90deg, #7b2ff7, #f107a3);
+      border: none;
+      padding: 10px 20px;
+      border-radius: 25px;
+      color: #fff;
+      cursor: pointer;
+      font-weight: 500;
+      transition: opacity 0.3s;
+    }
+
+    .btn:hover {
+      opacity: 0.8;
+    }
+
+    .main {
+      text-align: center;
+      margin-top: 80px;
+    }
+
+    .main h2 {
+      font-size: 3rem;
+      letter-spacing: 2px;
+    }
+
+    .main p {
+      color: #aaa;
+      margin: 15px 0 30px;
+      font-size: 1rem;
+    }
+
+    .buttons {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+    }
+
+    .btn-secondary {
+      background: linear-gradient(90deg, #5a4fcf, #a67ffb);
+    }
+
+    .settings {
+      margin-top: 80px;
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 15px;
+      padding: 20px;
+      width: 80%;
+      display: flex;
+      justify-content: space-around;
+      flex-wrap: wrap;
+    }
+
+    .card {
+      background: rgba(255, 255, 255, 0.08);
+      border-radius: 10px;
+      padding: 20px;
+      width: 180px;
+      text-align: center;
+      margin: 10px;
+      transition: transform 0.3s;
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+    }
+
+    .card img {
+      width: 50px;
+      height: 50px;
+      margin-bottom: 10px;
+    }
+
+    .card h4 {
+      margin-bottom: 5px;
+      font-size: 1rem;
+    }
+
+    .card p {
+      color: #aaa;
+      font-size: 0.85rem;
+    }
+  </style>
+</head>
+
+<body>
+
+  <header>
+    <button class="profile-btn" onclick="location.href='profile.html'">
+      <img src="https://img.icons8.com/fluency/48/user-male-circle.png" alt="Profile">
+    </button>
+
+    <h1>CHILLCAST</h1>
+
+    <nav>
+      <ul>
+        <li><a href="#">About</a></li>
+        <li><a href="#">Download</a></li>
+        <li><a href="#">Contact</a></li>
+        <li><a href="setting.html">Settings</a></li>
+        <li><button class="btn" onclick="location.href='login.html'">Sign in</button></li>
+      </ul>
+    </nav>
+  </header>
+
+  <section class="main">
+    <h2>CHILLCAST</h2>
+    <p>True conviving voice stopper meeting as you'll and add friends accessible to topics in supportive gatherings.</p>
+
+    <div class="buttons">
+      <a href="create.html" class="btn">Create Room</a>
+      <a href="join.html" class="btn btn-secondary">Join Room</a>
+    </div>
+  </section>
+
+  <section class="settings">
+    <div class="card">
+      <img src="https://img.icons8.com/fluency/48/user-male-circle.png" alt="Profile">
+      <h4>Profile Picture</h4>
+      <p>Change your avatar settings</p>
+    </div>
+  </section>
+
+  <script>
+    const savedImage = localStorage.getItem('profileImage');
+    if (savedImage) {
+      document.querySelector('.profile-btn img').src = savedImage;
+    }
+  </script>
+
+</body>
+</html>

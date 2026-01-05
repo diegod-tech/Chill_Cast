@@ -1,0 +1,513 @@
+<!doctype html>
+<html lang="en" class="h-full">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Streaming Hub</title>
+  <script src="/_sdk/element_sdk.js"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body {
+      box-sizing: border-box;
+    }
+    
+    .toggle-checkbox:checked {
+      background-color: currentColor;
+    }
+    
+    .toggle-checkbox:checked + .toggle-label:before {
+      transform: translateX(1.5rem);
+    }
+    
+    .toggle-label:before {
+      content: '';
+      position: absolute;
+      top: 0.125rem;
+      left: 0.125rem;
+      width: 1.25rem;
+      height: 1.25rem;
+      background-color: white;
+      border-radius: 9999px;
+      transition: transform 0.2s;
+    }
+
+    .platform-card {
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .platform-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    }
+  </style>
+  <style>@view-transition { navigation: auto; }</style>
+  <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
+ </head>
+ <body class="h-full">
+  <div id="app-wrapper" class="h-full w-full overflow-auto" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+   <div class="min-h-full p-6"><!-- Main Page -->
+    <section id="main-page">
+     <header class="max-w-7xl mx-auto mb-8">
+      <div class="flex items-center justify-between">
+       <div>
+        <h1 id="main-title" class="text-5xl font-bold text-white mb-2">Watch Party</h1>
+       </div><button onclick="openSettings()" class="w-14 h-14 rounded-full bg-white bg-opacity-20 backdrop-blur-sm flex items-center justify-center hover:bg-opacity-30 transition-all">
+        <svg class="w-7 h-7 text-white" fill="currentColor" viewbox="0 0 24 24"><path d="M19.14,12.94c0.04-0.3,0.06-0.61,0.06-0.94c0-0.32-0.02-0.64-0.07-0.94l2.03-1.58c0.18-0.14,0.23-0.41,0.12-0.61 l-1.92-3.32c-0.12-0.22-0.37-0.29-0.59-0.22l-2.39,0.96c-0.5-0.38-1.03-0.7-1.62-0.94L14.4,2.81c-0.04-0.24-0.24-0.41-0.48-0.41 h-3.84c-0.24,0-0.43,0.17-0.47,0.41L9.25,5.35C8.66,5.59,8.12,5.92,7.63,6.29L5.24,5.33c-0.22-0.08-0.47,0-0.59,0.22L2.74,8.87 C2.62,9.08,2.66,9.34,2.86,9.48l2.03,1.58C4.84,11.36,4.8,11.69,4.8,12s0.02,0.64,0.07,0.94l-2.03,1.58 c-0.18,0.14-0.23,0.41-0.12,0.61l1.92,3.32c0.12,0.22,0.37,0.29,0.59,0.22l2.39-0.96c0.5,0.38,1.03,0.7,1.62,0.94l0.36,2.54 c0.05,0.24,0.24,0.41,0.48,0.41h3.84c0.24,0,0.44-0.17,0.47-0.41l0.36-2.54c0.59-0.24,1.13-0.56,1.62-0.94l2.39,0.96 c0.22,0.08,0.47,0,0.59-0.22l1.92-3.32c0.12-0.22,0.07-0.47-0.12-0.61L19.14,12.94z M12,15.6c-1.98,0-3.6-1.62-3.6-3.6 s1.62-3.6,3.6-3.6s3.6,1.62,3.6,3.6S13.98,15.6,12,15.6z" />
+        </svg></button>
+      </div>
+     </header>
+     <main class="max-w-7xl mx-auto">
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6"><!-- Left Column - Platform Selection -->
+       <div class="lg:col-span-2 space-y-6"><!-- Action Buttons -->
+        <div class="grid grid-cols-2 gap-4"><button id="ott-platforms-btn" onclick="showOTTPlatforms()" class="platform-card bg-gradient-to-br from-red-500 to-pink-600 rounded-2xl p-8 text-center shadow-xl">
+          <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-white bg-opacity-20 flex items-center justify-center">
+           <svg class="w-10 h-10 text-white" fill="currentColor" viewbox="0 0 24 24"><path d="M21 3H3c-1.11 0-2 .89-2 2v12c0 1.1.89 2 2 2h5v2h8v-2h5c1.1 0 1.99-.9 1.99-2L23 5c0-1.11-.9-2-2-2zm0 14H3V5h18v12zm-5-6l-7 4V7z" />
+           </svg>
+          </div><h3 id="ott-button-label" class="text-2xl font-bold text-white">OTT Platforms</h3></button> <button id="screenshare-btn" onclick="showScreenShare(); window.location.href = 'screenshare.html';" class="platform-card bg-gradient-to-br from-purple-500 to-indigo-600 rounded-2xl p-8 text-center shadow-xl">
+          <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-white bg-opacity-20 flex items-center justify-center">
+           <svg class="w-10 h-10 text-white" fill="currentColor" viewbox="0 0 24 24"><path d="M20 18c1.1 0 1.99-.9 1.99-2L22 6c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2H0v2h24v-2h-4zM4 6h16v10H4V6zm9 10.5l4-4-4-4v2.5H9v3h4z" />
+           </svg>
+          </div><h3 id="screenshare-button-label" class="text-2xl font-bold text-white">Screen Share</h3></button>
+        </div><!-- OTT Platforms Selection (Hidden by default) -->
+        <div id="ott-selection" class="hidden">
+         <div class="bg-white bg-opacity-10 backdrop-blur-md rounded-2xl p-6">
+          <h2 class="text-2xl font-bold text-white mb-4">Select Platform</h2>
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-4"><button onclick="selectPlatform('Netflix')" class="platform-card bg-red-600 rounded-xl p-6 text-center shadow-lg hover:shadow-2xl">
+            <div class="w-12 h-12 mx-auto mb-3 rounded-full bg-white bg-opacity-20 flex items-center justify-center">
+             <svg class="w-7 h-7 text-white" fill="currentColor" viewbox="0 0 24 24"><path d="M5.398 0v.006c3.028 8.556 5.37 15.175 8.348 23.994 2.344.073 4.685.073 6.956-.001-3.222-9.195-5.733-16.27-8.89-24.747-2.139.115-4.273.158-6.414.748zm-5.398 0v24h6.148c-.65-1.856-1.167-3.34-1.827-5.197-2.352-6.687-3.475-9.875-6.321-18.803zm24 0l-8.407 24h-.003c-2.946-.058-5.948-.125-8.908-.37l8.405-23.63h8.913z" />
+             </svg>
+            </div><h4 id="netflix-label" class="text-xl font-bold text-white">Netflix</h4></button> <button onclick="selectPlatform('Prime Video')" class="platform-card bg-blue-600 rounded-xl p-6 text-center shadow-lg hover:shadow-2xl">
+            <div class="w-12 h-12 mx-auto mb-3 rounded-full bg-white bg-opacity-20 flex items-center justify-center">
+             <svg class="w-7 h-7 text-white" fill="currentColor" viewbox="0 0 24 24"><path d="M4.927 7.519C3.305 9.031 2.323 11.084 2.323 13.364c0 4.411 3.577 7.988 7.987 7.988 2.28 0 4.333-.981 5.845-2.604L4.927 7.519zM21.677 13.364c0-4.411-3.577-7.988-7.987-7.988-2.28 0-4.333.981-5.845 2.603l11.228 11.229c1.622-1.512 2.604-3.565 2.604-5.844zm-14.617 8.89c-.537-.293-1.045-.638-1.513-1.037l13.103-13.103c.399.468.744.976 1.037 1.513L6.06 22.254zM22 13.364C22 7.568 17.432 3 11.636 3S1.273 7.568 1.273 13.364s4.568 10.363 10.363 10.363S22 19.159 22 13.364z" />
+             </svg>
+            </div><h4 id="prime-label" class="text-xl font-bold text-white">Prime Video</h4></button> <button onclick="selectPlatform('YouTube')" class="platform-card bg-red-500 rounded-xl p-6 text-center shadow-lg hover:shadow-2xl">
+            <div class="w-12 h-12 mx-auto mb-3 rounded-full bg-white bg-opacity-20 flex items-center justify-center">
+             <svg class="w-7 h-7 text-white" fill="currentColor" viewbox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z" />
+             </svg>
+            </div><h4 id="youtube-label" class="text-xl font-bold text-white">YouTube</h4></button>
+          </div>
+         </div>
+        </div>
+       </div><!-- Right Column - Participants & Chat -->
+       <div class="space-y-6"><!-- Participants -->
+        <div class="bg-white bg-opacity-10 backdrop-blur-md rounded-2xl p-6">
+         <div class="flex items-center justify-between mb-4">
+          <h3 id="participants-label" class="text-xl font-bold text-white">In This Room</h3><span class="bg-white bg-opacity-20 px-3 py-1 rounded-full text-white font-semibold text-sm">3</span>
+         </div>
+         <div class="space-y-3">
+          <div class="flex items-center gap-3">
+           <div class="w-10 h-10 rounded-full bg-gradient-to-br from-pink-400 to-red-500 flex items-center justify-center text-white font-bold">
+            A
+           </div>
+           <div class="flex-1">
+            <p class="text-white font-semibold">Alice</p>
+            <p class="text-purple-200 text-xs">Host</p>
+           </div>
+          </div>
+          <div class="flex items-center gap-3">
+           <div class="w-10 h-10 rounded-full bg-gradient-to-br from-blue-400 to-indigo-500 flex items-center justify-center text-white font-bold">
+            B
+           </div>
+           <div class="flex-1">
+            <p class="text-white font-semibold">Bob</p>
+            <p class="text-purple-200 text-xs">Member</p>
+           </div>
+          </div>
+          <div class="flex items-center gap-3">
+           <div class="w-10 h-10 rounded-full bg-gradient-to-br from-green-400 to-teal-500 flex items-center justify-center text-white font-bold">
+            C
+           </div>
+           <div class="flex-1">
+            <p class="text-white font-semibold">Charlie</p>
+            <p class="text-purple-200 text-xs">Member</p>
+           </div>
+          </div>
+         </div>
+        </div><!-- Chat Box -->
+        <div class="bg-white bg-opacity-10 backdrop-blur-md rounded-2xl p-6">
+         <h3 class="text-xl font-bold text-white mb-4">Chat</h3>
+         <div id="chat-messages" class="space-y-3 mb-4 max-h-64 overflow-y-auto">
+          <div class="bg-white bg-opacity-10 rounded-lg p-3">
+           <p class="text-white font-semibold text-sm">Alice</p>
+           <p class="text-purple-100 text-sm">Hey! Ready to watch?</p>
+          </div>
+          <div class="bg-white bg-opacity-10 rounded-lg p-3">
+           <p class="text-white font-semibold text-sm">Bob</p>
+           <p class="text-purple-100 text-sm">Yes! Let's start 🎬</p>
+          </div>
+         </div>
+         <form onsubmit="sendMessage(event)" class="flex gap-2"><input type="text" id="chat-input" placeholder="Type a message..." class="flex-1 bg-white bg-opacity-20 text-white placeholder-purple-200 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-white focus:ring-opacity-50"> <button type="submit" class="bg-white bg-opacity-20 hover:bg-opacity-30 text-white rounded-lg px-4 py-2 transition-all">
+           <svg class="w-5 h-5" fill="currentColor" viewbox="0 0 24 24"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z" />
+           </svg></button>
+         </form>
+        </div>
+       </div>
+      </div>
+     </main>
+    </section><!-- Settings Page -->
+    <section id="settings-page" class="hidden">
+     <div class="max-w-2xl mx-auto">
+      <div class="bg-white rounded-2xl shadow-2xl p-8">
+       <div class="flex items-center gap-4 mb-8"><button onclick="closeSettings()" class="w-12 h-12 rounded-full bg-gray-100 flex items-center justify-center hover:bg-gray-200 transition-colors">
+         <svg class="w-6 h-6 text-gray-600" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+         </svg></button>
+        <div>
+         <h2 id="settings-title" class="text-3xl font-bold text-gray-800">Settings</h2>
+         <p class="text-gray-600">Manage your preferences</p>
+        </div>
+       </div>
+       <div id="settings-content">
+        <div class="space-y-3">
+         <div class="w-full flex items-center justify-between p-5 bg-gray-50 rounded-xl">
+          <div class="flex items-center gap-4">
+           <div class="w-12 h-12 rounded-full bg-gradient-to-br from-blue-400 to-blue-600 flex items-center justify-center">
+            <svg class="w-6 h-6 text-white" fill="currentColor" viewbox="0 0 24 24"><path d="M12 22c1.1 0 2-.9 2-2h-4c0 1.1.9 2 2 2zm6-6v-5c0-3.07-1.63-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v.68C7.64 5.36 6 7.92 6 11v5l-2 2v1h16v-1l-2-2zm-2 1H8v-6c0-2.48 1.51-4.5 4-4.5s4 2.02 4 4.5v6z" />
+            </svg>
+           </div>
+           <div class="text-left"><label for="notification-toggle" class="font-semibold text-gray-800 cursor-pointer" id="notification-label">Notifications</label>
+            <p class="text-sm text-gray-600">Manage your notifications</p>
+           </div>
+          </div>
+          <div class="relative"><input type="checkbox" id="notification-toggle" class="toggle-checkbox sr-only" checked style="color: #667eea;"> <label for="notification-toggle" class="toggle-label block w-14 h-7 bg-gray-300 rounded-full relative cursor-pointer"></label>
+          </div>
+         </div><button onclick="handleShareApp()" class="w-full flex items-center justify-between p-5 bg-gray-50 rounded-xl hover:bg-gray-100 transition-colors">
+          <div class="flex items-center gap-4">
+           <div class="w-12 h-12 rounded-full bg-gradient-to-br from-green-400 to-green-600 flex items-center justify-center">
+            <svg class="w-6 h-6 text-white" fill="currentColor" viewbox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81 1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9c-1.66 0-3 1.34-3 3s1.34 3 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.16c-.05.21-.08.43-.08.65 0 1.61 1.31 2.92 2.92 2.92 1.61 0 2.92-1.31 2.92-2.92s-1.31-2.92-2.92-2.92z" />
+            </svg>
+           </div>
+           <div class="text-left">
+            <p class="font-semibold text-gray-800" id="share-label">Share App</p>
+            <p class="text-sm text-gray-600">Share with friends</p>
+           </div>
+          </div>
+          <svg class="w-6 h-6 text-gray-400" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+          </svg></button> <button onclick="openPrivacyPage()" class="w-full flex items-center justify-between p-5 bg-gray-50 rounded-xl hover:bg-gray-100 transition-colors">
+          <div class="flex items-center gap-4">
+           <div class="w-12 h-12 rounded-full bg-gradient-to-br from-purple-400 to-purple-600 flex items-center justify-center">
+            <svg class="w-6 h-6 text-white" fill="currentColor" viewbox="0 0 24 24"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm0 10.99h7c-.53 4.12-3.28 7.79-7 8.94V12H5V6.3l7-3.11v8.8z" />
+            </svg>
+           </div>
+           <div class="text-left">
+            <p class="font-semibold text-gray-800" id="privacy-label">Privacy</p>
+            <p class="text-sm text-gray-600">Privacy settings</p>
+           </div>
+          </div>
+          <svg class="w-6 h-6 text-gray-400" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+          </svg></button> <button onclick="handleLogout()" class="w-full flex items-center justify-between p-5 bg-gray-50 rounded-xl hover:bg-red-50 transition-colors">
+          <div class="flex items-center gap-4">
+           <div class="w-12 h-12 rounded-full bg-gradient-to-br from-red-400 to-red-600 flex items-center justify-center">
+            <svg class="w-6 h-6 text-white" fill="currentColor" viewbox="0 0 24 24"><path d="M17 7l-1.41 1.41L18.17 11H8v2h10.17l-2.58 2.58L17 17l5-5zM4 5h8V3H4c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h8v-2H4V5z" />
+            </svg>
+           </div>
+           <div class="text-left">
+            <p id="logout-label" class="font-semibold text-red-600">Logout</p>
+            <p class="text-sm text-gray-600">Sign out of your account</p>
+           </div>
+          </div>
+          <svg class="w-6 h-6 text-gray-400" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+          </svg></button>
+        </div>
+       </div>
+      </div>
+     </div>
+    </section><!-- Privacy Page -->
+    <section id="privacy-page" class="hidden">
+     <div class="max-w-2xl mx-auto">
+      <div class="bg-white rounded-2xl shadow-2xl p-8"><button onclick="closePrivacy()" class="flex items-center gap-2 mb-6 text-gray-600 hover:text-gray-800 transition-colors">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+        </svg><span class="font-medium">Back</span> </button>
+       <div class="text-center">
+        <div class="w-20 h-20 mx-auto mb-6 rounded-full bg-gradient-to-br from-purple-400 to-purple-600 flex items-center justify-center">
+         <svg class="w-10 h-10 text-white" fill="currentColor" viewbox="0 0 24 24"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm0 10.99h7c-.53 4.12-3.28 7.79-7 8.94V12H5V6.3l7-3.11v8.8z" />
+         </svg>
+        </div>
+        <h2 class="text-3xl font-bold mb-4 text-gray-800">Privacy Policy</h2>
+        <p class="text-gray-600 text-lg mb-8 max-w-xl mx-auto">Your privacy is important to us. We protect your data and never share it with third parties.</p>
+        <div class="bg-gray-50 rounded-xl p-8 text-left">
+         <p class="text-gray-700 leading-relaxed mb-4">We collect only the information necessary to provide our services. Your data is encrypted and stored securely.</p>
+         <p class="text-gray-700 leading-relaxed">You have full control over your information and can delete your account at any time.</p>
+        </div>
+       </div>
+      </div>
+     </div>
+    </section>
+   </div>
+  </div>
+  <script>
+    const defaultConfig = {
+      main_title: "Watch Party",
+      ott_button_label: "OTT Platforms",
+      screenshare_button_label: "Screen Share",
+      netflix_label: "Netflix",
+      prime_label: "Prime Video",
+      youtube_label: "YouTube",
+      participants_label: "In This Room",
+      chat_placeholder: "Type a message...",
+      notification_label: "Notifications",
+      share_label: "Share App",
+      privacy_label: "Privacy",
+      logout_label: "Logout",
+      background_color: "#667eea",
+      surface_color: "#ffffff",
+      text_color: "#1f2937",
+      accent_color: "#f3f4f6",
+      button_color: "#ef4444",
+      font_family: "system-ui",
+      font_size: 16
+    };
+
+    function showOTTPlatforms() {
+      const ottSelection = document.getElementById('ott-selection');
+      if (ottSelection.classList.contains('hidden')) {
+        ottSelection.classList.remove('hidden');
+        showMessage('Select your streaming platform');
+      } else {
+        ottSelection.classList.add('hidden');
+      }
+    }
+
+    function showScreenShare() {
+      document.getElementById('ott-selection').classList.add('hidden');
+      showMessage('Screen share started!');
+    }
+
+    function selectPlatform(platform) {
+      showMessage(`Connected to ${platform}!`);
+    }
+
+    function sendMessage(event) {
+      event.preventDefault();
+      const input = document.getElementById('chat-input');
+      const message = input.value.trim();
+      
+      if (message) {
+        const chatMessages = document.getElementById('chat-messages');
+        const messageDiv = document.createElement('div');
+        messageDiv.className = 'bg-white bg-opacity-10 rounded-lg p-3';
+        messageDiv.innerHTML = `
+          <p class="text-white font-semibold text-sm">You</p>
+          <p class="text-purple-100 text-sm">${message}</p>
+        `;
+        chatMessages.appendChild(messageDiv);
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+        input.value = '';
+      }
+    }
+
+    function openSettings() {
+      document.getElementById('main-page').classList.add('hidden');
+      document.getElementById('settings-page').classList.remove('hidden');
+    }
+
+    function closeSettings() {
+      document.getElementById('settings-page').classList.add('hidden');
+      document.getElementById('main-page').classList.remove('hidden');
+    }
+
+    function openPrivacyPage() {
+      document.getElementById('settings-content').classList.add('hidden');
+      document.getElementById('settings-page').classList.add('hidden');
+      document.getElementById('privacy-page').classList.remove('hidden');
+    }
+
+    function closePrivacy() {
+      document.getElementById('privacy-page').classList.add('hidden');
+      document.getElementById('settings-page').classList.remove('hidden');
+      document.getElementById('settings-content').classList.remove('hidden');
+    }
+
+    function handleShareApp() {
+      showMessage('Share options opened');
+    }
+
+    function handleLogout() {
+      showMessage('Logging out...');
+    }
+
+    function showMessage(text) {
+      const existing = document.getElementById('toast-message');
+      if (existing) existing.remove();
+
+      const toast = document.createElement('div');
+      toast.id = 'toast-message';
+      toast.className = 'fixed bottom-8 left-1/2 transform -translate-x-1/2 px-6 py-3 bg-gray-800 text-white rounded-lg shadow-lg transition-opacity duration-300 z-50';
+      toast.textContent = text;
+      document.body.appendChild(toast);
+
+      setTimeout(() => {
+        toast.style.opacity = '0';
+        setTimeout(() => toast.remove(), 300);
+      }, 2000);
+    }
+
+    async function onConfigChange(config) {
+      const customFont = config.font_family || defaultConfig.font_family;
+      const baseFontStack = '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif';
+      const baseSize = config.font_size || defaultConfig.font_size;
+      
+      const backgroundColor = config.background_color || defaultConfig.background_color;
+      const surfaceColor = config.surface_color || defaultConfig.surface_color;
+      const textColor = config.text_color || defaultConfig.text_color;
+      const accentColor = config.accent_color || defaultConfig.accent_color;
+      
+      document.getElementById('app-wrapper').style.background = `linear-gradient(135deg, ${backgroundColor} 0%, #764ba2 100%)`;
+      
+      document.getElementById('main-title').textContent = config.main_title || defaultConfig.main_title;
+      document.getElementById('main-title').style.fontFamily = `${customFont}, ${baseFontStack}`;
+      document.getElementById('main-title').style.fontSize = `${baseSize * 3}px`;
+      
+      document.getElementById('ott-button-label').textContent = config.ott_button_label || defaultConfig.ott_button_label;
+      document.getElementById('ott-button-label').style.fontFamily = `${customFont}, ${baseFontStack}`;
+      document.getElementById('ott-button-label').style.fontSize = `${baseSize * 1.5}px`;
+      
+      document.getElementById('screenshare-button-label').textContent = config.screenshare_button_label || defaultConfig.screenshare_button_label;
+      document.getElementById('screenshare-button-label').style.fontFamily = `${customFont}, ${baseFontStack}`;
+      document.getElementById('screenshare-button-label').style.fontSize = `${baseSize * 1.5}px`;
+      
+      document.getElementById('netflix-label').textContent = config.netflix_label || defaultConfig.netflix_label;
+      document.getElementById('netflix-label').style.fontFamily = `${customFont}, ${baseFontStack}`;
+      document.getElementById('netflix-label').style.fontSize = `${baseSize * 1.25}px`;
+      
+      document.getElementById('prime-label').textContent = config.prime_label || defaultConfig.prime_label;
+      document.getElementById('prime-label').style.fontFamily = `${customFont}, ${baseFontStack}`;
+      document.getElementById('prime-label').style.fontSize = `${baseSize * 1.25}px`;
+      
+      document.getElementById('youtube-label').textContent = config.youtube_label || defaultConfig.youtube_label;
+      document.getElementById('youtube-label').style.fontFamily = `${customFont}, ${baseFontStack}`;
+      document.getElementById('youtube-label').style.fontSize = `${baseSize * 1.25}px`;
+      
+      document.getElementById('participants-label').textContent = config.participants_label || defaultConfig.participants_label;
+      document.getElementById('participants-label').style.fontFamily = `${customFont}, ${baseFontStack}`;
+      document.getElementById('participants-label').style.fontSize = `${baseSize * 1.25}px`;
+      
+      const chatInput = document.getElementById('chat-input');
+      chatInput.placeholder = config.chat_placeholder || defaultConfig.chat_placeholder;
+      chatInput.style.fontFamily = `${customFont}, ${baseFontStack}`;
+      chatInput.style.fontSize = `${baseSize}px`;
+      
+      document.getElementById('notification-label').textContent = config.notification_label || defaultConfig.notification_label;
+      document.getElementById('notification-label').style.fontFamily = `${customFont}, ${baseFontStack}`;
+      document.getElementById('notification-label').style.fontSize = `${baseSize}px`;
+      
+      document.getElementById('share-label').textContent = config.share_label || defaultConfig.share_label;
+      document.getElementById('share-label').style.fontFamily = `${customFont}, ${baseFontStack}`;
+      document.getElementById('share-label').style.fontSize = `${baseSize}px`;
+      
+      document.getElementById('privacy-label').textContent = config.privacy_label || defaultConfig.privacy_label;
+      document.getElementById('privacy-label').style.fontFamily = `${customFont}, ${baseFontStack}`;
+      document.getElementById('privacy-label').style.fontSize = `${baseSize}px`;
+      
+      document.getElementById('logout-label').textContent = config.logout_label || defaultConfig.logout_label;
+      document.getElementById('logout-label').style.fontFamily = `${customFont}, ${baseFontStack}`;
+      document.getElementById('logout-label').style.fontSize = `${baseSize}px`;
+      
+      document.querySelectorAll('p').forEach(el => {
+        el.style.fontFamily = `${customFont}, ${baseFontStack}`;
+        el.style.fontSize = `${baseSize * 0.875}px`;
+      });
+      
+      document.querySelectorAll('.bg-gray-50').forEach(el => {
+        el.style.backgroundColor = accentColor;
+      });
+    }
+
+    function mapToCapabilities(config) {
+      return {
+        recolorables: [
+          {
+            get: () => config.background_color || defaultConfig.background_color,
+            set: (value) => {
+              config.background_color = value;
+              if (window.elementSdk) {
+                window.elementSdk.setConfig({ background_color: value });
+              }
+            }
+          },
+          {
+            get: () => config.surface_color || defaultConfig.surface_color,
+            set: (value) => {
+              config.surface_color = value;
+              if (window.elementSdk) {
+                window.elementSdk.setConfig({ surface_color: value });
+              }
+            }
+          },
+          {
+            get: () => config.text_color || defaultConfig.text_color,
+            set: (value) => {
+              config.text_color = value;
+              if (window.elementSdk) {
+                window.elementSdk.setConfig({ text_color: value });
+              }
+            }
+          },
+          {
+            get: () => config.accent_color || defaultConfig.accent_color,
+            set: (value) => {
+              config.accent_color = value;
+              if (window.elementSdk) {
+                window.elementSdk.setConfig({ accent_color: value });
+              }
+            }
+          },
+          {
+            get: () => config.button_color || defaultConfig.button_color,
+            set: (value) => {
+              config.button_color = value;
+              if (window.elementSdk) {
+                window.elementSdk.setConfig({ button_color: value });
+              }
+            }
+          }
+        ],
+        borderables: [],
+        fontEditable: {
+          get: () => config.font_family || defaultConfig.font_family,
+          set: (value) => {
+            config.font_family = value;
+            if (window.elementSdk) {
+              window.elementSdk.setConfig({ font_family: value });
+            }
+          }
+        },
+        fontSizeable: {
+          get: () => config.font_size || defaultConfig.font_size,
+          set: (value) => {
+            config.font_size = value;
+            if (window.elementSdk) {
+              window.elementSdk.setConfig({ font_size: value });
+            }
+          }
+        }
+      };
+    }
+
+    function mapToEditPanelValues(config) {
+      return new Map([
+        ["main_title", config.main_title || defaultConfig.main_title],
+        ["ott_button_label", config.ott_button_label || defaultConfig.ott_button_label],
+        ["screenshare_button_label", config.screenshare_button_label || defaultConfig.screenshare_button_label],
+        ["netflix_label", config.netflix_label || defaultConfig.netflix_label],
+        ["prime_label", config.prime_label || defaultConfig.prime_label],
+        ["youtube_label", config.youtube_label || defaultConfig.youtube_label],
+        ["participants_label", config.participants_label || defaultConfig.participants_label],
+        ["chat_placeholder", config.chat_placeholder || defaultConfig.chat_placeholder],
+        ["notification_label", config.notification_label || defaultConfig.notification_label],
+        ["share_label", config.share_label || defaultConfig.share_label],
+        ["privacy_label", config.privacy_label || defaultConfig.privacy_label],
+        ["logout_label", config.logout_label || defaultConfig.logout_label]
+      ]);
+    }
+
+    if (window.elementSdk) {
+      window.elementSdk.init({
+        defaultConfig,
+        onConfigChange,
+        mapToCapabilities,
+        mapToEditPanelValues
+      });
+    }
+  </script>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9ad3ced4a28b47d5',t:'MTc2NTYxMTU2OS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
